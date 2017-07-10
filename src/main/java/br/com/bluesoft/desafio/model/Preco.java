@@ -30,4 +30,10 @@ public class Preco {
 	public int getQuantidade() {
 		return quantidade;
 	}
+	
+	public Boolean valida(int quantidadeDoPedido) {
+		if(quantidadeDoPedido >= quantidade)
+			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
 }

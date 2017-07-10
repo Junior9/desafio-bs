@@ -1,5 +1,6 @@
 package br.com.bluesoft.desafio.model;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import br.com.bluesoft.desafio.service.FornecedorService;
 
 @Entity
 public class Fornecedor {
@@ -21,14 +24,20 @@ public class Fornecedor {
 	
 	@OneToMany(cascade = {CascadeType.ALL})
 	private List<Preco> precos;
-
-	public Fornecedor(String nome, String cnpj, List<Preco> listaDePrecos) {
-		this.nome = nome;
-		this.cnpj = cnpj;
-		this.precos = listaDePrecos;
+	
+	public Fornecedor(Fornecedor fornecedor, Preco melhorPreco) {
+		this.cnpj = fornecedor.getCnpj();
+		this.nome = fornecedor.getNome();
+		this.precos = Arrays.asList(melhorPreco);
 	}
 
 	public Fornecedor() {}
+
+	public Fornecedor(String cnpj, String nome, List<Preco> precos) {
+		this.cnpj = cnpj;
+		this.nome = nome;
+		this.precos = precos;
+	}
 
 	public String getNome() {
 		return nome;
@@ -57,6 +66,7 @@ public class Fornecedor {
 	public List<Preco> listaDePrecos() {
 		return Collections.unmodifiableList(this.precos);
 	}
+	
 
 	@Override
 	public int hashCode() {
@@ -82,5 +92,4 @@ public class Fornecedor {
 			return false;
 		return true;
 	}
-
 }

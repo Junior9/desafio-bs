@@ -1,5 +1,7 @@
 package br.com.bluesoft.desafio.api;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,14 @@ public class PedidoController {
 	}
 	
 	@GetMapping("testa")
-	public  String teste(){
-		pedidoService.teste();
-		return "";
+	public  List<Pedido> teste(){
+		
+		Map<String, Integer> mapPedido = new HashMap<>();
+		mapPedido.put("7894900011517",1);
+		mapPedido.put("7891910000197",10);
+		mapPedido.put("7892840222949",7);
+		
+		return pedidoService.teste(mapPedido);
 	}
 	
 	@PostMapping("pedido/salva")
