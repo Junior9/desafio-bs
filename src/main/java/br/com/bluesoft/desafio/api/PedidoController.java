@@ -1,14 +1,10 @@
 package br.com.bluesoft.desafio.api;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.bluesoft.desafio.model.Pedido;
 import br.com.bluesoft.desafio.service.PedidoService;
 
@@ -23,16 +19,6 @@ public class PedidoController {
 		return pedidoService.getAllPedidos();
 	}
 	
-	@GetMapping("testa")
-	public  List<Pedido> teste(){
-		
-		Map<String, Integer> mapPedido = new HashMap<>();
-		mapPedido.put("7894900011517",1);
-		mapPedido.put("7891910000197",10);
-		mapPedido.put("7892840222949",7);
-		
-		return pedidoService.teste(mapPedido);
-	}
 	
 	@PostMapping("pedido/salva")
 	public String salva(Map<String,Integer> pedidos){

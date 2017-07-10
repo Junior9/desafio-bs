@@ -37,4 +37,11 @@ public class Pedido {
 	public List<Item> getItens() {
 		return itens;
 	}
+
+  public void addItens(List<Item> itens) {
+    for (Item item : itens) {
+      this.itens.add(item);
+    }
+    
+  }
 }

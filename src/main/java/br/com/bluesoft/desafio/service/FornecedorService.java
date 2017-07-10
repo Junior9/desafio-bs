@@ -39,21 +39,21 @@ public class FornecedorService {
 		int index = 0;
 		if(!fornecedores.isEmpty()){
 			melhorPreco = melhorPreco(fornecedores.get(index), quantidadeDoPedido);
-			melhorFornecedor = fornecedores.get(index);
+			//melhorFornecedor = fornecedores.get(index);
 			Preco preco;
 			for (Fornecedor fornecedor : fornecedores) {
 				preco = melhorPreco(fornecedor, quantidadeDoPedido);
-				
 				if(preco != null && melhorPreco.getValor() > preco.getValor()){
-									
 					melhorFornecedor = fornecedor;
 					melhorPreco = melhorPreco( fornecedor, quantidadeDoPedido );
 				}
 			}
-			
 		}
-		melhorFornecedor.setPrecos(Arrays.asList(melhorPreco));
-		return melhorFornecedor;
+		if(melhorFornecedor != null ){
+		  melhorFornecedor.setPrecos(Arrays.asList(melhorPreco));
+		  return melhorFornecedor;
+		}
+		return null;
 	}
 	
 	public Preco melhorPreco(Fornecedor fornecedor, int quantidade){

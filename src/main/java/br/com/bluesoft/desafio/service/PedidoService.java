@@ -45,12 +45,19 @@ public class PedidoService {
 		for (String gtin : mapProdutos.keySet()) {
 			pedido = montaPedido(gtin, mapProdutos.get(gtin));
 			if(pedido != null)
-				mapPedidos.put(pedido.getFornecedor().getNome(),pedido);
+			  if(mapPedidos.containsKey(pedido.getFornecedor().getNome())){
+			    Pedido pedidoExistente = mapPedidos.get(pedido.getFornecedor().getNome());
+			    pedidoExistente.addItens(pedido.getItens());
+			  }else{
+			    mapPedidos.put(pedido.getFornecedor().getNome(),pedido);
+			  }
 		}
-		
-		for (String fornecedor : mapPedidos.keySet()) {
+		for (String fornecedor : mapPedidos.keySet()) 
 			pedidos.add(mapPedidos.get(fornecedor));
-		}
+		
+		if(pedidos != null)
+		  pedidoRepository.save(pedidos);
+		
 		return pedidos;
 	}
 
@@ -61,9 +68,13 @@ public class PedidoService {
 		Produto produto  = produtoRepository.findOne(gtin);
 		List<Fornecedor> fornecedores = fornecedorService.getFornecedorByGtin(gtin);
 		Fornecedor melhorFornecedor = fornecedorService.melhorFornecedor(fornecedores, quantidade);
-		Preco melhorPreco = fornecedorService.melhorPreco(melhorFornecedor, quantidade);
-		List<Item> itens = new ArrayList<>();
-		itens.add(new Item(produto,melhorPreco.getValor(),quantidade));
-		return new Pedido(melhorFornecedor,produto,itens);
+		
+		if(melhorFornecedor != null){
+		  Preco melhorPreco = fornecedorService.melhorPreco(melhorFornecedor, quantidade);
+		  List<Item> itens = new ArrayList<>();
+		  itens.add(new Item(produto,melhorPreco.getValor(),quantidade));
+		  return new Pedido(melhorFornecedor,produto,itens);
+		}
+		return null;
 	}
 }
