@@ -4,7 +4,7 @@
         .service('PedidoService', ['$http', function($http) {
             return {
                 get: function() {
-                    return $http.get('pedidos/all');
+                    return $http.get('pedido/all');
                 },
                 save: function(data) {
                     return $http.post('pedido/salva', data);

@@ -11,17 +11,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import br.com.bluesoft.desafio.service.FornecedorService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Fornecedor {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@JsonIgnore
 	private int id;
 	private String nome;
+	@JsonIgnore
 	private String cnpj;
 	
+	@JsonIgnore
 	@OneToMany(cascade = {CascadeType.ALL})
 	private List<Preco> precos;
 	

@@ -1,6 +1,7 @@
 package br.com.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -57,15 +58,24 @@ public class PedidoServiceTeste {
 	@Test
 	public void montaPedidoTest(){
 		String gtin = "7894900011517"; 
+		quantidade = 10;
 		fornecedores = mockUtil.listaDeFornecedores();
 		Fornecedor fornecedor  = new Fornecedor("56.918.868/0001-20", "Fornecedor 1", mockUtil.listaDePrecos(1,1));
 		when(produtoRepository.findOne(gtin)).thenReturn(new Produto(gtin,"REFRIGERANTE COCA-COLA 2LT"));
 		when(fornecedorService.getFornecedorByGtin(gtin)).thenReturn(fornecedores);
 		
-		//when(fornecedorService.melhorFornecedor(fornecedores, quantidade)).thenReturn(new Fornecedor());
+		when(fornecedorService.melhorFornecedor(fornecedores, quantidade)).thenReturn(fornecedor);
 		when(fornecedorService.melhorPreco(fornecedor, quantidade)).thenReturn(new Preco(2.5,quantidade));
 		
-		Pedido pedido = pedidoService.montaPedido(gtin,10);
-		assertEquals(1, pedido.getItens());
+		Pedido pedido = pedidoService.montaPedido(gtin,quantidade);
+		assertEquals(1, pedido.getItens().size());
+	} 
+	
+	@Test
+	public void montaPedidoQuantidade0Test(){
+		String gtin = "7894900011517"; 
+		quantidade = 0;
+		Pedido pedido = pedidoService.montaPedido(gtin,quantidade);
+		assertNull(pedido);
 	} 
 }

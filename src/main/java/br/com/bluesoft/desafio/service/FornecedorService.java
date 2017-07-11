@@ -43,7 +43,7 @@ public class FornecedorService {
 			Preco preco;
 			for (Fornecedor fornecedor : fornecedores) {
 				preco = melhorPreco(fornecedor, quantidadeDoPedido);
-				if(preco != null && melhorPreco.getValor() > preco.getValor()){
+				if(preco != null && melhorPreco.getValor() >= preco.getValor()){
 					melhorFornecedor = fornecedor;
 					melhorPreco = melhorPreco( fornecedor, quantidadeDoPedido );
 				}

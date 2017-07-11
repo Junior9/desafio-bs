@@ -65,15 +65,17 @@ public class PedidoService {
 		
 		//Validar Gtin antes
 		
-		Produto produto  = produtoRepository.findOne(gtin);
-		List<Fornecedor> fornecedores = fornecedorService.getFornecedorByGtin(gtin);
-		Fornecedor melhorFornecedor = fornecedorService.melhorFornecedor(fornecedores, quantidade);
-		
-		if(melhorFornecedor != null){
-		  Preco melhorPreco = fornecedorService.melhorPreco(melhorFornecedor, quantidade);
-		  List<Item> itens = new ArrayList<>();
-		  itens.add(new Item(produto,melhorPreco.getValor(),quantidade));
-		  return new Pedido(melhorFornecedor,produto,itens);
+		if(quantidade > 0){
+			Produto produto  = produtoRepository.findOne(gtin);
+			List<Fornecedor> fornecedores = fornecedorService.getFornecedorByGtin(gtin);
+			Fornecedor melhorFornecedor = fornecedorService.melhorFornecedor(fornecedores, quantidade);
+			
+			if(melhorFornecedor != null){
+			  Preco melhorPreco = fornecedorService.melhorPreco(melhorFornecedor, quantidade);
+			  List<Item> itens = new ArrayList<>();
+			  itens.add(new Item(produto,melhorPreco.getValor(),quantidade));
+			  return new Pedido(melhorFornecedor,produto,itens);
+			}
 		}
 		return null;
 	}
