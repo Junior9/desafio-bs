@@ -13,6 +13,7 @@ import br.com.bluesoft.desafio.model.Item;
 import br.com.bluesoft.desafio.model.Pedido;
 import br.com.bluesoft.desafio.model.Preco;
 import br.com.bluesoft.desafio.model.Produto;
+import br.com.bluesoft.desafio.model.data.form.DataFormulario;
 import br.com.bluesoft.desafio.repository.PedidoRepository;
 import br.com.bluesoft.desafio.repository.ProdutoRepository;
 
@@ -78,5 +79,29 @@ public class PedidoService {
 			}
 		}
 		return null;
+	}
+
+	public List<Pedido> montaPedidos(List<DataFormulario> pedidosResquest) {
+		List<Pedido> pedidos = new ArrayList<>();
+		Map<String, Pedido> mapPedidos = new HashMap<>();
+		
+		Pedido pedido;
+		for (DataFormulario dataForm : pedidosResquest) {
+			pedido = montaPedido(dataForm.getGtin(),dataForm.getQuantidade());
+			if(pedido != null)
+			  if(mapPedidos.containsKey(pedido.getFornecedor().getNome())){
+			    Pedido pedidoExistente = mapPedidos.get(pedido.getFornecedor().getNome());
+			    pedidoExistente.addItens(pedido.getItens());
+			  }else{
+			    mapPedidos.put(pedido.getFornecedor().getNome(),pedido);
+			  }
+		}
+		for (String fornecedor : mapPedidos.keySet()) 
+			pedidos.add(mapPedidos.get(fornecedor));
+		
+		if(pedidos != null)
+		  pedidoRepository.save(pedidos);
+		
+		return pedidos;
 	}
 }

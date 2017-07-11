@@ -18,9 +18,7 @@
             }
 
             function salvarPedido() {
-            	alert(vm.produtos);
                 var data = vm.produtos.map(function(produto) {
-                	alert(produto);
                     return {
                         gtin: produto.gtin,
                         quantidade: produto.quantidade
